@@ -12,7 +12,7 @@ public class SocketManager : MonoBehaviour
 
     //Handlers
     [SerializeField] private SpawnHandler spawnHandler;
-
+    [SerializeField] MovementHandler movementHandler;
     void Awake()
     {
 
@@ -82,11 +82,17 @@ public class SocketManager : MonoBehaviour
     void RegisterAllHandlers()
     {
         spawnHandler.RegisterHandler(mySocket);
+        movementHandler.RegisterHandler(mySocket);
     }
 
     public SpawnHandler GetSpawnHandler()
     {
         return spawnHandler;
+    }
+
+    public MovementHandler GetMovementHandler()
+    {
+        return movementHandler;
     }
     void OnDestroy()
     {

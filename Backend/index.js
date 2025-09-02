@@ -42,6 +42,20 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on("movement", (resp) => {
+        try {
+            let data;
+            if (typeof resp == "string") {
+                data = JSON.parse(resp);
+                io.emit("movement", data);
+                console.log("Movement Data Sent to clones");
+            }
+            console.log(`✅ Request For Movement Received ::: ${resp}`);
+        } catch (error) {
+            console.log(`❌ Error while request Movement Error: ${error}`);
+        }
+    });
+
 
     socket.on("disconnect", () => {
         console.log("❌ A player disconnected:", socket.id);

@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class Agent : MonoBehaviour
 {
+    public bool sendMovementData = false;
     NavMeshAgent agent;
     RaycastHit hit;
     Ray ray;
@@ -50,12 +51,22 @@ public class Agent : MonoBehaviour
         }
     }
 
+    public void MoveCloneToTarget(Vector3 destination)
+    {
+        targetToReach = destination;
+        timeToMove = true;
+    }
     void MoveToTarget()
     {
         if (timeToMove)
         {
             if (GetDistanceToTarget(targetToReach) > safeDistanceToTarget)
             {
+                if (sendMovementData)
+                {
+                    SocketManager.Instance.GetMovementHandler().SendMovementData(targetToReach,player.playerId);
+                    print("Movement Data Sent From Agent");
+                }
                 agent.isStopped = false;
                 agent.SetDestination(targetToReach);
                 timeToMove = false;

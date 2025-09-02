@@ -65,7 +65,11 @@ public class SpawnHandler : MonoBehaviour
                 Player tempPlayer = Instantiate(GameManager.Instance.FindPlayer(selectedCharacter));
                 tempPlayer.transform.position = spawnPos;
                 tempPlayer.SetPlayerInfo((id), characterName);
-                if (isLoginSpawn) GameManager.Instance.spawned_localPlayer = tempPlayer;
+                if (isLoginSpawn)
+                {
+                    GameManager.Instance.spawned_localPlayer = tempPlayer;
+                    tempPlayer.GetAgent().sendMovementData = true;
+                }
                 GameManager.Instance.RegisterPlayer(id, tempPlayer);
             });
         }

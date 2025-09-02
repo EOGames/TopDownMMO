@@ -50,4 +50,9 @@ public class GameManager : MonoBehaviour
 
     public bool IsPlayerSpawned(string id) => spawnedPlayers.ContainsKey(id);
 
+    public Player FindPlayer(string id)
+    {
+        return spawnedPlayers.GetValueOrDefault(id);
+    }
+
 }
