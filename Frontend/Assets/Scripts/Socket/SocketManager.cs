@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using SocketIOClient;
 
@@ -8,7 +7,7 @@ public class SocketManager : MonoBehaviour
     public static SocketManager Instance { get; private set; }
     private SocketIOUnity mySocket;
 
-    [SerializeField] string serverUrl = "https://www.example.com";
+    public string serverUrl = "https://www.example.com";
     bool isConnected = false;
 
     //Handlers
@@ -83,6 +82,11 @@ public class SocketManager : MonoBehaviour
     void RegisterAllHandlers()
     {
         spawnHandler.RegisterHandler(mySocket);
+    }
+
+    public SpawnHandler GetSpawnHandler()
+    {
+        return spawnHandler;
     }
     void OnDestroy()
     {

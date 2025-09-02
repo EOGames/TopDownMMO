@@ -1,4 +1,4 @@
-export const GenrateId = (prefix, postfix) => {
+module.exports.GenrateId = (prefix, postfix) => {
     const curTime = Date.now();
     const randomNumber = Math.random() * 1000;
     const anotherRandom = Math.random() * 2000;
