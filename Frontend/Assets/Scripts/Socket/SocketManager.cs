@@ -13,6 +13,7 @@ public class SocketManager : MonoBehaviour
     //Handlers
     [SerializeField] private SpawnHandler spawnHandler;
     [SerializeField] MovementHandler movementHandler;
+    [SerializeField] private WeaponHandler wpnHandler;
     void Awake()
     {
 
@@ -76,6 +77,13 @@ public class SocketManager : MonoBehaviour
             Debug.Log("❌ Disconnected from server");
         };
         print("Trying to connect to server");
+
+        mySocket.On("playerDisconnected", (SocketIOResponse resp) =>
+        {
+            string disconnectingId = resp.GetValue().ToString();
+            print(("Disconnecting from server Player ID "+disconnectingId));
+            GameManager.Instance.RemovePlayer(disconnectingId);
+        });
         mySocket.Connect();
     }
 
@@ -83,6 +91,7 @@ public class SocketManager : MonoBehaviour
     {
         spawnHandler.RegisterHandler(mySocket);
         movementHandler.RegisterHandler(mySocket);
+        wpnHandler.RegisterSocket(mySocket);
     }
 
     public SpawnHandler GetSpawnHandler()
@@ -93,6 +102,11 @@ public class SocketManager : MonoBehaviour
     public MovementHandler GetMovementHandler()
     {
         return movementHandler;
+    }
+
+    public WeaponHandler GetWeaponHandler()
+    {
+        return wpnHandler;
     }
     void OnDestroy()
     {

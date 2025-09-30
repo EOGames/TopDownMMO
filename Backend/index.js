@@ -48,18 +48,39 @@ io.on("connection", (socket) => {
             if (typeof resp == "string") {
                 data = JSON.parse(resp);
                 io.emit("movement", data);
-                console.log("Movement Data Sent to clones");
+                // console.log("Movement Data Sent to clones");
             }
-            console.log(`✅ Request For Movement Received ::: ${resp}`);
+            // console.log(`✅ Request For Movement Received ::: ${resp}`);
         } catch (error) {
             console.log(`❌ Error while request Movement Error: ${error}`);
         }
     });
 
+    socket.on("shootWeapon", (resp) => {
+        console.log(" 🎯 Shoot Event Received");
+        try {
+            let data;
+            if (typeof resp == 'string') {
+                data = JSON.parse(resp);
+            }
+            console.log("Data For Shoot Event : ", data);
+            io.emit("shootWeapon", data);
+            console.log(" 🟢 Weapon Shoot Data Sent To Clones !");
+        } catch (error) {
+            console.log(` Error While Sending Shoot Event Error: ${error}`);
+        }
+    });
+
 
     socket.on("disconnect", () => {
-        console.log("❌ A player disconnected:", socket.id);
-        delete alreadySpawnedPlayers[socket.id];
+        try {
+            console.log("❌ A player disconnected:", socket.id);
+            console.log("❌ And disconnected Player Id Is:", alreadySpawnedPlayers[socket.id].id);
+            io.emit("playerDisconnected", alreadySpawnedPlayers[socket.id].id)
+            delete alreadySpawnedPlayers[socket.id];
+        } catch (error) {
+            console.log(` Error Discconecting Player and Error is ${error}`);
+        }
     });
 });
 

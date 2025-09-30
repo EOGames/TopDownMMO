@@ -9,9 +9,11 @@ public class Player : MonoBehaviour
     public string characterName;
 
     private Agent agent;
+    private PlayerWeapon gun;
     private void Awake()
     {
         agent = GetComponent<Agent>();
+        gun = GetComponent<PlayerWeapon>();
     }
 
     public void SetPlayerInfo(string _playerId,string _characterName)
@@ -28,5 +30,10 @@ public class Player : MonoBehaviour
     public Agent GetAgent()
     {
         return agent;
+    }
+
+    public PlayerWeapon GetGun()
+    {
+        return gun;
     }
 }

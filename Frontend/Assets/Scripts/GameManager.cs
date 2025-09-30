@@ -40,12 +40,15 @@ public class GameManager : MonoBehaviour
 
     public void RemovePlayer(string id)
     {
-        if (spawnedPlayers.TryGetValue(id, out Player player))
+        MainThreadDispatcher.Instance.Enqueue(() =>
         {
-            Destroy(player.gameObject);
-            spawnedPlayers.Remove(id);
-            Debug.Log("Removed player: " + id);
-        }
+            if (spawnedPlayers.TryGetValue(id, out Player player))
+            {
+                Destroy(player.gameObject);
+                spawnedPlayers.Remove(id);
+                Debug.Log("Removed player: " + id);
+            }
+        });
     }
 
     public bool IsPlayerSpawned(string id) => spawnedPlayers.ContainsKey(id);
